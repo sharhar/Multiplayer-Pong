@@ -1,6 +1,20 @@
 //#include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
+#include <SFML/System.hpp>
+#include "String.h"
 #include <iostream>
+
+void sleep(float sec) {
+	sf::sleep(sf::seconds(sec));
+}
+
+void game() {
+
+}
+
+void listen() {
+
+}
 
 int main() {
 	sf::TcpSocket socket;
@@ -28,6 +42,22 @@ int main() {
 	if (socket.send(data, 100) != sf::Socket::Done)
 	{
 	    // error...
+	}
+
+	sf::Thread lis(&listen);
+	sf::Thread loop(&game);
+
+	lis.launch();
+	loop.launch();
+
+	while(true) {
+		char data[100] = "Pong data!";
+
+		if (socket.send(data, 100) != sf::Socket::Done) {
+
+		}
+
+		sleep(0.01f);
 	}
 
 	return 0;
