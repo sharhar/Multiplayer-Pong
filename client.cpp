@@ -149,45 +149,49 @@ void listen() {
 int main() {
 	sf::Thread loop(&game);
 
-	// std::cout << "Enter port: ";
-	// int port = 0;
-	// std::cin >> port;
+	std::cout << "Enter IP: ";
+	std::string address = "";
+	std::cin >> address;
 
-	// sf::Socket::Status status = socket.connect("localhost", port);
-	
-	// if (status != sf::Socket::Done) {
- //    	std::cout << "Could not connect to server!" << std::endl;
- //    	return -1;
- //    }
+	std::cout << "Enter port: ";
+	int port = 0;
+	std::cin >> port;
 
-	// sf::Thread lis(&listen);
+	sf::Socket::Status status = socket.connect(address, port);
 	
-	// char data[100];
-	// std::size_t received;
-	
-	// if (socket.receive(data, 100, received) != sf::Socket::Done) {
-	// 	running = false;
- //   		std::cout << "Could not recive data!" << std::endl;
-	// }
+	if (status != sf::Socket::Done) {
+    	std::cout << "Could not connect to server!" << std::endl;
+    	return -1;
+    }
 
-	// std::string str(data);
-	// std::vector<std::string> parts = StringUtils::split(str, ' ');
+	sf::Thread lis(&listen);
 	
-	// int number = StringUtils::parseInt(parts[1]);
-	// std::cout << "Number is: " << number << std::endl;
-	// num = number;
+	char data[100];
+	std::size_t received;
+	
+	if (socket.receive(data, 100, received) != sf::Socket::Done) {
+		running = false;
+   		std::cout << "Could not recive data!" << std::endl;
+	}
 
-	// lis.launch();
+	std::string str(data);
+	std::vector<std::string> parts = StringUtils::split(str, ' ');
+	
+	int number = StringUtils::parseInt(parts[1]);
+	std::cout << "Number is: " << number << std::endl;
+	num = number;
+
+	lis.launch();
 	loop.launch();
 
 	while(running) {
-		// if(send) {
-		// 	std::string message = "P " + to_string(y);
+		if(send) {
+			std::string message = "P " + to_string(y);
 
-		// 	if (socket.send(message.c_str(), 100) != sf::Socket::Done) {
+			if (socket.send(message.c_str(), 100) != sf::Socket::Done) {
 
-		// 	}
-		// }
+			}
+		}
 
 		sleep(0.02f);
 	}
