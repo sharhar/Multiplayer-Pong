@@ -110,6 +110,8 @@ void game() {
 		window.popGLStates();
         
         window.display();
+
+        sleep(0.02f);
     }
 }
 
