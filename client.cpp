@@ -89,16 +89,22 @@ void game() {
         }
         glEnd();
 
-        int speed = 5;
+        int speed = 10;
 
         if(focused) {
         	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 	        	send = true;
 	        	y += speed;
+	        	if(y > 380) {
+	        		y = 380;
+	        	}
 	        }
 	        if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 	        	send = true;
 	        	y -= speed;
+	        	if(y < 0) {
+	        		y = 0;
+	        	}
 	        }
         }
 

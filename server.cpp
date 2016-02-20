@@ -20,12 +20,22 @@ int ballX = 300;
 int ballY = 300;
 int p1s = 3;
 int p2s = 3;
+int p1o = 0;
+int p2o = 0;
 
-int bsx = 2;
-int bsy = 2;
+int bsx = 4;
+int bsy = 4;
 
 void sleep(float sec) {
 	sf::sleep(sf::seconds(sec));
+}
+
+int abs(int number) {
+	if(number < 0) {
+		return -number;
+	}
+
+	return number;
 }
 
 bool isHitting(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2) {
@@ -103,8 +113,12 @@ void game() {
 			if(ballY+20 > 480 || ballY < 0) {
 				bsy = -bsy;
 			}
-			if(isHitting(100, p1y, 15, 100, ballX, ballY, 20, 20) || isHitting(500, p2y, 15, 100, ballX, ballY, 20, 20)) {
-				bsx = -bsx;
+
+			if(isHitting(100, p1y, 15, 100, ballX, ballY, 20, 20)) {
+				bsx = abs(bsx);
+			}
+			if(isHitting(500, p2y, 15, 100, ballX, ballY, 20, 20)) {
+				bsx = -abs(bsx);	
 			}
 
 			if(ballX < 0) {
