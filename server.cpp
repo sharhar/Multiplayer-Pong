@@ -16,15 +16,24 @@ sf::Clock CC;
 
 int p1y = 100;
 int p2y = 100;
-int ballX = 300;
-int ballY = 300;
+float ballX = 300;
+float ballY = 300;
+float ball2X = 300;
+float ball2Y = 300;
 int p1s = 3;
 int p2s = 3;
 int p1o = 0;
 int p2o = 0;
 
-int bsx = 4;
-int bsy = 4;
+float bsx = 4;
+float bsy = 4;
+float bsx2 = -4;
+float bsy2 = -4;
+
+float calcOff(int p, float b) {
+	float result = b - p;
+	return result/50.0f;
+}
 
 void sleep(float sec) {
 	sf::sleep(sf::seconds(sec));
@@ -109,16 +118,33 @@ void game() {
 		} else {
 			ballX += bsx;
 			ballY += bsy;
+			ball2X += bsx2;
+			ball2Y += bsy2;
 
 			if(ballY+20 > 480 || ballY < 0) {
 				bsy = -bsy;
 			}
 
+			if(ball2Y+20 > 480 || ball2Y < 0) {
+				bsy2 = -bsy2;
+			}
+
 			if(isHitting(100, p1y, 15, 100, ballX, ballY, 20, 20)) {
 				bsx = abs(bsx);
+				bsy += calcOff(p1y, ballY);
 			}
 			if(isHitting(500, p2y, 15, 100, ballX, ballY, 20, 20)) {
-				bsx = -abs(bsx);	
+				bsx = -abs(bsx);
+				bsy += calcOff(p2y, ballY);	
+			}
+
+			if(isHitting(100, p1y, 15, 100, ball2X, ball2Y, 20, 20)) {
+				bsx2 = abs(bsx2);
+				bsy2 += calcOff(p1y, ball2Y);
+			}
+			if(isHitting(500, p2y, 15, 100, ball2X, ball2Y, 20, 20)) {
+				bsx2 = -abs(bsx2);
+				bsy2 += calcOff(p2y, ball2Y);	
 			}
 
 			if(ballX < 0) {
@@ -129,11 +155,22 @@ void game() {
 				p2s++;
 				ballX = 300;
 			}
+
+			if(ball2X < 0) {
+				p1s++;
+				ball2X = 300;
+			}
+			if(ball2X+20 > 640) {
+				p2s++;
+				ball2X = 300;
+			}
 		}
 
 		sleep(0.02f);
 	}
 }
+
+
 
 int main() {
 	sf::TcpListener listener;
@@ -183,7 +220,7 @@ int main() {
 
 	while(running) {
 		//std::cout << "p1 " << p1y << "\tp2 " << p2y << std::endl;
-		std::string message = "U " + to_string(p1y) + " " + to_string(p2y) + " " + to_string(ballX) + " " + to_string(ballY) + " " + to_string(p1s) + " " + to_string(p2s);
+		std::string message = "U " + to_string(p1y) + " " + to_string(p2y) + " " + to_string((int) ballX) + " " + to_string((int) ballY) + " " + to_string(p2s) + " " + to_string(p1s) + " " + to_string((int) ball2X) + " " + to_string((int) ball2Y);
 		const char* cMessage = message.c_str();
 
 		if(clientSocket1.send(cMessage, 100) != sf::Socket::Done) {

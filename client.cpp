@@ -20,6 +20,8 @@ int player1Y = 100;
 int player2Y = 100;
 int ballX = 300;
 int ballY = 300;
+int ball2X = 300;
+int ball2Y = 300;
 int p1Score = 0;
 int p2Score = 0;
 int num = 0;
@@ -86,6 +88,11 @@ void game() {
         	glVertex2f(ballX     , ballY+20);
         	glVertex2f(ballX + 20, ballY+20);
         	glVertex2f(ballX + 20, ballY   );
+
+        	glVertex2f(ball2X     , ball2Y   );
+        	glVertex2f(ball2X     , ball2Y+20);
+        	glVertex2f(ball2X + 20, ball2Y+20);
+        	glVertex2f(ball2X + 20, ball2Y   );
         }
         glEnd();
 
@@ -144,12 +151,16 @@ void listen() {
 			int number4 = StringUtils::parseInt(parts[4]);
 			int number5 = StringUtils::parseInt(parts[5]);
 			int number6 = StringUtils::parseInt(parts[6]);
+			int number7 = StringUtils::parseInt(parts[7]);
+			int number8 = StringUtils::parseInt(parts[8]);
 			player1Y = number1;
 			player2Y = number2;
 			ballX    = number3;
 			ballY    = number4;
 			p1Score  = number5;
 			p2Score  = number6;
+			ball2X   = number7;
+			ball2Y   = number8;
 		}
 	}
 }
